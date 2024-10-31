@@ -4,14 +4,16 @@ namespace SnakeGame
 {
     public class Game
     {
-        private bool gameOver = false;
-        Snake snake = new Snake();
-        Map map = new Map();
+        private readonly bool gameOver = false;
+        readonly Snake snake = new();
+        readonly Map map = new();
+        readonly Fruit fruit = new();
 
         public void Run()
         {
             CursorVisible = false;
-            InitSnake();
+            snake.Positions.Add(new Point(Map.End.x / 2, Map.End.y / 2));
+            SpawnFruit();
 
             while (!gameOver)
             {
@@ -22,10 +24,23 @@ namespace SnakeGame
             }
         }
 
-        private void InitSnake()
+        private void SpawnFruit()
         {
-            snake?.X?.Add(map.EndX / 2);
-            snake?.Y?.Add(map.EndY / 2);
+            bool canSpawn = true;
+            do
+            {
+                Random random = new();
+                int x = random.Next(1, Map.End.x - 1);
+                int y = random.Next(1, Map.End.y - 1);
+
+                fruit.Position = new Point(x, y);
+
+                for (int i = 0; i < snake.Positions.Count; i++)
+                {
+                    if (fruit.Position == snake.Positions[i]) canSpawn = false;
+                }
+            }
+            while (!canSpawn);
         }
 
         private void Logic()
@@ -42,6 +57,7 @@ namespace SnakeGame
         {
             Clear();
             map.DrawMap();
+            fruit.DrawFruit();
             snake.DrawSnake();
         }
     }

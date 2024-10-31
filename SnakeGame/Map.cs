@@ -4,29 +4,28 @@ namespace SnakeGame
 {
     public class Map
     {
-        public int EndX => 30;
-        public int EndY => 25;
+        public static readonly Point End = new(30, 25);
 
-        private char wallToken = '#';
-        private ConsoleColor wallColor = ConsoleColor.Gray;
+        private readonly char wallToken = '#';
+        private readonly ConsoleColor wallColor = ConsoleColor.Gray;
 
         public void DrawMap()
         {
             ForegroundColor = wallColor;
 
-            for (int x = 0; x < EndX; x++)
+            for (int x = 0; x < End.x; x++)
             {
                 SetCursorPosition(x, 0);
                 Write(wallToken);
-                SetCursorPosition(x, EndY - 1);
+                SetCursorPosition(x, End.y - 1);
                 Write(wallToken);
             }
 
-            for (int y = 0; y < EndY; y++)
+            for (int y = 0; y < End.y; y++)
             {
                 SetCursorPosition(0, y);
                 Write(wallToken);
-                SetCursorPosition(EndX - 1, y);
+                SetCursorPosition(End.x - 1, y);
                 Write(wallToken);
             }
 

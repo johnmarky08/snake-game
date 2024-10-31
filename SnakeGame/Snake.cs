@@ -4,26 +4,22 @@ namespace SnakeGame
 {
     public class Snake
     {
-        private char snakeHead = '@';
-        private char snakeBody = 'O';
-        private char snakeTail = 'o';
-        private ConsoleColor snakeColor = ConsoleColor.Green;
+        private readonly char snakeHead = '@';
+        private readonly char snakeBody = 'O';
+        private readonly char snakeTail = 'o';
+        private readonly ConsoleColor snakeColor = ConsoleColor.Green;
 
-        public List<int>? X { get; set; }
-        public List<int>? Y { get; set; }
+        public List<Point> Positions { get; set; } = [];
 
-      public void DrawSnake()
+        public void DrawSnake()
         {
-            X = new List<int>();
-            Y = new List<int>();
-
             ForegroundColor = snakeColor;
 
-            for (int i = 0; i < X.Count; i++)
+            for (int i = 0; i < Positions.Count; i++)
             {
-                SetCursorPosition(X[i], Y[i]);
+                SetCursorPosition(Positions[i].x, Positions[i].y);
                 if (i == 0) Write(snakeHead);
-                else if (i == (X.Count - 1)) Write(snakeTail);
+                else if (i == (Positions.Count - 1)) Write(snakeTail);
                 else Write(snakeBody);
             }
             ResetColor();
