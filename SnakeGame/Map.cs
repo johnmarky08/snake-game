@@ -4,10 +4,10 @@ namespace SnakeGame
 {
     public class Map
     {
-        public static readonly Point End = new(30, 25);
+        public static readonly Point End = new((int)Configurations.WIDTH, (int)Configurations.HEIGHT);
 
-        private readonly char wallToken = '#';
-        private readonly ConsoleColor wallColor = ConsoleColor.Gray;
+        private readonly char wallToken = (char)Configurations.WALL_TOKEN;
+        private readonly ConsoleColor wallColor = (ConsoleColor)Configurations.WALL_COLOR;
 
         public void DrawMap()
         {

@@ -6,8 +6,8 @@ namespace SnakeGame
     {
         public Point Position {  get; set; }
         
-        private readonly char fruitToken = '%';
-        private readonly ConsoleColor fruitColor = ConsoleColor.Red;
+        private readonly char fruitToken = (char)Configurations.FRUIT_TOKEN;
+        private readonly ConsoleColor fruitColor = (ConsoleColor)Configurations.FRUIT_COLOR;
 
         public void DrawFruit()
         {
