@@ -22,6 +22,7 @@ namespace SnakeGame
                 else if (i == (Positions.Count - 1)) Write(snakeTail);
                 else Write(snakeBody);
             }
+
             ResetColor();
         }
 

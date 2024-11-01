@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace SnakeGame
+﻿namespace SnakeGame
 {
     public struct Point(int x, int y)
     {

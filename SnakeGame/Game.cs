@@ -113,6 +113,11 @@ namespace SnakeGame
                             if (direction != Direction.RIGHT) direction = Direction.LEFT;
                             break;
                         }
+                    case ConsoleKey.Escape:
+                        {
+                            gameOver = true;
+                            break;
+                        }
                 }
             }
         }
