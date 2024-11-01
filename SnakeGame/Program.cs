@@ -1,5 +1,6 @@
 ﻿#pragma warning disable SYSLIB1054
 using System.Runtime.InteropServices;
+using static SnakeGame.Game;
 
 namespace SnakeGame
 {
@@ -27,7 +28,25 @@ namespace SnakeGame
                 Console.WriteLine("Failed to get console window handle.");
             }
 
+            bool pressed = false;
+            while (!pressed)
+            {
+                Console.WriteLine("\r\n░██████╗███╗░░██╗░█████╗░██╗░░██╗███████╗  ░██████╗░░█████╗░███╗░░░███╗███████╗\r\n██╔════╝████╗░██║██╔══██╗██║░██╔╝██╔════╝  ██╔════╝░██╔══██╗████╗░████║██╔════╝\r\n╚█████╗░██╔██╗██║███████║█████═╝░█████╗░░  ██║░░██╗░███████║██╔████╔██║█████╗░░\r\n░╚═══██╗██║╚████║██╔══██║██╔═██╗░██╔══╝░░  ██║░░╚██╗██╔══██║██║╚██╔╝██║██╔══╝░░\r\n██████╔╝██║░╚███║██║░░██║██║░╚██╗███████╗  ╚██████╔╝██║░░██║██║░╚═╝░██║███████╗\r\n╚═════╝░╚═╝░░╚══╝╚═╝░░╚═╝╚═╝░░╚═╝╚══════╝  ░╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝");
+                Console.WriteLine("\n\nDeveloped by: John Marky Dev");
+                Console.WriteLine("\n> Press \"S\" to start the game!");
+                Console.WriteLine("> Press \"E\" to exit.");
+                Console.CursorVisible = false;
+
+                ConsoleKey key = Console.ReadKey(true).Key;
+                if (key == ConsoleKey.S) pressed = true;
+                else if ((key == ConsoleKey.E) || (key == ConsoleKey.Escape)) return;
+
+                Console.Clear();
+            }
+
             var game = new Game();
+
+            game.Positions.Add(new Point(Map.End.X / 2, Map.End.Y / 2));
             game.Run();
         }
     }

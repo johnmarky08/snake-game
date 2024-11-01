@@ -3,7 +3,7 @@
     public enum Configuration
     {
         WIDTH = 60,
-        HEIGHT = 30,
+        HEIGHT = 40,
         WALL_TOKEN = '#',
         FRUIT_TOKEN = '%',
         SNAKE_HEAD = '@',
@@ -11,7 +11,7 @@
         SNAKE_TAIL = 'o',
         WALL_COLOR = ConsoleColor.Gray,
         FRUIT_COLOR = ConsoleColor.Red,
-        SNAKE_COLOR = ConsoleColor.Green
+        SNAKE_COLOR = ConsoleColor.Green,
     }
 
     public enum Direction

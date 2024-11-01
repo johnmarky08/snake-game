@@ -1,5 +1,5 @@
-﻿using static System.Console;
-using System.Text;
+﻿using System.Text;
+using static System.Console;
 
 namespace SnakeGame
 {
@@ -7,7 +7,7 @@ namespace SnakeGame
     {
         private bool gameOver = false;
         private int score = 0;
-        private readonly Snake snake = new();
+        private int totalScore = 0;
         private readonly Fruit fruit = new();
         private Direction direction = Direction.STOP;
 
@@ -26,7 +26,6 @@ namespace SnakeGame
         public void Run()
         {
             CursorVisible = false;
-            Positions.Add(new Point(Map.End.X / 2, Map.End.Y / 2));
             SpawnFruit();
 
             while (!gameOver)
@@ -38,8 +37,45 @@ namespace SnakeGame
                 Thread.Sleep(200);
             }
 
-            ReadKey();
+            PlayAgain();
         }
+
+        public void PlayAgain()
+        {
+            Clear();
+
+            bool playAgain = false;
+            while (!playAgain)
+            {
+                WriteLine("\r\n░██████╗░░█████╗░███╗░░░███╗███████╗  ░█████╗░██╗░░░██╗███████╗██████╗░\r\n██╔════╝░██╔══██╗████╗░████║██╔════╝  ██╔══██╗██║░░░██║██╔════╝██╔══██╗\r\n██║░░██╗░███████║██╔████╔██║█████╗░░  ██║░░██║╚██╗░██╔╝█████╗░░██████╔╝\r\n██║░░╚██╗██╔══██║██║╚██╔╝██║██╔══╝░░  ██║░░██║░╚████╔╝░██╔══╝░░██╔══██╗\r\n╚██████╔╝██║░░██║██║░╚═╝░██║███████╗  ╚█████╔╝░░╚██╔╝░░███████╗██║░░██║\r\n░╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝  ░╚════╝░░░░╚═╝░░░╚══════╝╚═╝░░╚═╝");
+
+                WriteLine("\n\nDeveloped by: John Marky Dev");
+                WriteLine($"\nYour Current Score: {score}");
+                WriteLine($"Your Total Score: {totalScore}");
+
+                WriteLine("\nDo you want to play again?");
+                WriteLine("Press \"R\" to Restart.");
+                WriteLine("Press \"E\" to Exit.");
+
+                ConsoleKey pressedKey = ReadKey(true).Key;
+                if (pressedKey == ConsoleKey.R) playAgain = true;
+                else if ((pressedKey == ConsoleKey.E) || (pressedKey == ConsoleKey.Escape)) return;
+
+                Clear();
+            }
+
+            gameOver = false;
+            score = 0;
+
+            Positions.Clear();
+            Positions.Add(new Point(Map.End.X / 2, Map.End.Y / 2));
+            
+            direction = Direction.STOP;
+            SpawnFruit();
+            Run();
+        }
+
+
 
         public List<Point> Positions { get; set; } = [];
 
@@ -104,6 +140,7 @@ namespace SnakeGame
                 SpawnFruit();
                 Positions.Add(new Point(Positions[^1].X, Positions[^1].Y));
                 score += 10;
+                totalScore += 10;
             }
         }
 
@@ -203,6 +240,44 @@ namespace SnakeGame
 
             SetColors();
             DrawScore();
+            DrawFunctions();
+        }
+
+        private static void DrawFunctions()
+        {
+            int guides = 30;
+            int dash = 13;
+            int meaning = 10;
+
+            SetCursorPosition(Map.End.X - guides, Map.End.Y);
+            WriteLine("W / Up Arrow");
+
+            SetCursorPosition(Map.End.X - guides, Map.End.Y + 1);
+            WriteLine("D / Down Arrow");
+
+            SetCursorPosition(Map.End.X - guides, Map.End.Y + 2);
+            WriteLine("R / Right Arrow");
+
+            SetCursorPosition(Map.End.X - guides, Map.End.Y + 3);
+            WriteLine("L / Left Arrow");
+
+            for (int i = 0; i < 4; i++)
+            {
+                SetCursorPosition(Map.End.X - dash, Map.End.Y + i);
+                WriteLine("-");
+            }
+
+            SetCursorPosition(Map.End.X - meaning, Map.End.Y);
+            WriteLine("Go Up");
+
+            SetCursorPosition(Map.End.X - meaning, Map.End.Y + 1);
+            WriteLine("Go Down");
+
+            SetCursorPosition(Map.End.X - meaning, Map.End.Y + 2);
+            WriteLine("Go Right");
+
+            SetCursorPosition(Map.End.X - meaning, Map.End.Y + 3);
+            WriteLine("Go Left");
         }
 
         private void SetColors()
@@ -252,7 +327,7 @@ namespace SnakeGame
 
         private void DrawScore()
         {
-            SetCursorPosition(0, Map.End.Y);
+            SetCursorPosition(5, Map.End.Y);
             Write($"Your Score: {score}");
         }
     }
