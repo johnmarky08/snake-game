@@ -127,13 +127,26 @@ namespace SnakeGame
             {
                 for (int y = 1; y < Map.End.y - 1; y++)
                 {
-                    if (x != fruit.Position.x || y != fruit.Position.y)
+                    bool isFruit = (x == fruit.Position.x && y == fruit.Position.y);
+                    bool isSnakePart = false;
+
+                    foreach (var position in snake.Positions)
+                    {
+                        if (x == position.x && y == position.y)
+                        {
+                            isSnakePart = true;
+                            break;
+                        }
+                    }
+
+                    if (!isFruit && !isSnakePart)
                     {
                         SetCursorPosition(x, y);
                         Write(' ');
                     }
                 }
             }
+
             map.DrawMap();
             fruit.DrawFruit();
             snake.DrawSnake();
