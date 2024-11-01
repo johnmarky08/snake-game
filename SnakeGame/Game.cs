@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using static System.Console;
+﻿using static System.Console;
 
 namespace SnakeGame
 {
@@ -23,7 +22,7 @@ namespace SnakeGame
                 Draw();
                 Input();
                 Logic();
-                Thread.Sleep(100);
+                //Thread.Sleep(100);
             }
         }
 
@@ -66,7 +65,7 @@ namespace SnakeGame
         private void CheckCollision()
         {
             if (snake.Positions[0].x <= 0 || snake.Positions[0].x >= Map.End.x - 1 || snake.Positions[0].y <= 0 || snake.Positions[0].y >= Map.End.y - 1) gameOver = true;
-            
+
             for (int i = 2; i < snake.Positions.Count; i++)
             {
                 if (snake.Positions[0] == snake.Positions[i]) gameOver = true;
@@ -124,7 +123,17 @@ namespace SnakeGame
 
         private void Draw()
         {
-            Clear();
+            for (int x = 1; x < Map.End.x - 1; x++)
+            {
+                for (int y = 1; y < Map.End.y - 1; y++)
+                {
+                    if (x != fruit.Position.x || y != fruit.Position.y)
+                    {
+                        SetCursorPosition(x, y);
+                        Write(' ');
+                    }
+                }
+            }
             map.DrawMap();
             fruit.DrawFruit();
             snake.DrawSnake();
