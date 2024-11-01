@@ -1,9 +1,9 @@
 ﻿namespace SnakeGame
 {
-    public enum Configurations
+    public enum Configuration
     {
-        WIDTH = 100,
-        HEIGHT = 50,
+        WIDTH = 60,
+        HEIGHT = 30,
         WALL_TOKEN = '#',
         FRUIT_TOKEN = '%',
         SNAKE_HEAD = '@',
@@ -12,5 +12,10 @@
         WALL_COLOR = ConsoleColor.Gray,
         FRUIT_COLOR = ConsoleColor.Red,
         SNAKE_COLOR = ConsoleColor.Green
+    }
+
+    public enum Direction
+    {
+        STOP, UP, DOWN, RIGHT, LEFT
     }
 }

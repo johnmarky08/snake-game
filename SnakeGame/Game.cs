@@ -13,10 +13,20 @@ namespace SnakeGame
 
         private readonly StringBuilder buffer = new();
 
+        public class Map
+        {
+            public static readonly Point End = new((int)Configuration.WIDTH, (int)Configuration.HEIGHT);
+        }
+
+        public class Fruit
+        {
+            public Point Position { get; set; }
+        }
+
         public void Run()
         {
             CursorVisible = false;
-            snake.Positions.Add(new Point(Map.End.X / 2, Map.End.Y / 2));
+            Positions.Add(new Point(Map.End.X / 2, Map.End.Y / 2));
             SpawnFruit();
 
             while (!gameOver)
@@ -26,6 +36,38 @@ namespace SnakeGame
                 Input();
                 Logic();
                 Thread.Sleep(200);
+            }
+
+            ReadKey();
+        }
+
+        public List<Point> Positions { get; set; } = [];
+
+        public void Move(Direction direction)
+        {
+            for (int i = Positions.Count - 1; i > 0; i--) Positions[i] = Positions[i - 1];
+            switch (direction)
+            {
+                case Direction.UP:
+                    {
+                        Positions[0] += Point.Up;
+                        break;
+                    }
+                case Direction.DOWN:
+                    {
+                        Positions[0] += Point.Down;
+                        break;
+                    }
+                case Direction.RIGHT:
+                    {
+                        Positions[0] += Point.Right;
+                        break;
+                    }
+                case Direction.LEFT:
+                    {
+                        Positions[0] += Point.Left;
+                        break;
+                    }
             }
         }
 
@@ -40,9 +82,9 @@ namespace SnakeGame
 
                 fruit.Position = new Point(x, y);
 
-                for (int i = 0; i < snake.Positions.Count; i++)
+                for (int i = 0; i < Positions.Count; i++)
                 {
-                    if (fruit.Position == snake.Positions[i]) canSpawn = false;
+                    if (fruit.Position == Positions[i]) canSpawn = false;
                 }
             }
             while (!canSpawn);
@@ -50,29 +92,29 @@ namespace SnakeGame
 
         private void Logic()
         {
-            snake.Move(direction);
+            Move(direction);
             CheckCollision();
             EatFruit();
         }
 
         private void EatFruit()
         {
-            if (snake.Positions[0] == fruit.Position)
+            if (Positions[0] == fruit.Position)
             {
                 SpawnFruit();
-                snake.Positions.Add(new Point(snake.Positions[^1].X, snake.Positions[^1].Y));
+                Positions.Add(new Point(Positions[^1].X, Positions[^1].Y));
                 score += 10;
             }
         }
 
         private void CheckCollision()
         {
-            if (snake.Positions[0].X <= 0 || snake.Positions[0].X >= Map.End.X - 1 || snake.Positions[0].Y <= 0 || snake.Positions[0].Y >= Map.End.Y - 1)
+            if (Positions[0].X <= 0 || Positions[0].X >= Map.End.X - 1 || Positions[0].Y <= 0 || Positions[0].Y >= Map.End.Y - 1)
                 gameOver = true;
 
-            for (int i = 2; i < snake.Positions.Count; i++)
+            for (int i = 2; i < Positions.Count; i++)
             {
-                if (snake.Positions[0] == snake.Positions[i]) gameOver = true;
+                if (Positions[0] == Positions[i]) gameOver = true;
             }
         }
 
@@ -124,25 +166,25 @@ namespace SnakeGame
                 {
                     if (x == 0 || x == Map.End.X - 1 || y == 0 || y == Map.End.Y - 1)
                     {
-                        buffer.Append((char)Configurations.WALL_TOKEN);
+                        buffer.Append((char)Configuration.WALL_TOKEN);
                     }
                     else if (x == fruit.Position.X && y == fruit.Position.Y)
                     {
-                        buffer.Append((char)Configurations.FRUIT_TOKEN);
+                        buffer.Append((char)Configuration.FRUIT_TOKEN);
                     }
-                    else if (x == snake.Positions[0].X && y == snake.Positions[0].Y)
+                    else if (x == Positions[0].X && y == Positions[0].Y)
                     {
-                        buffer.Append((char)Configurations.SNAKE_HEAD);
+                        buffer.Append((char)Configuration.SNAKE_HEAD);
                     }
-                    else if (snake.Positions.Contains(new Point(x, y)))
+                    else if (Positions.Contains(new Point(x, y)))
                     {
-                        if (snake.Positions.IndexOf(new Point(x, y)) == snake.Positions.Count - 1)
+                        if (Positions.IndexOf(new Point(x, y)) == Positions.Count - 1)
                         {
-                            buffer.Append((char)Configurations.SNAKE_TAIL);
+                            buffer.Append((char)Configuration.SNAKE_TAIL);
                         }
                         else
                         {
-                            buffer.Append((char)Configurations.SNAKE_BODY);
+                            buffer.Append((char)Configuration.SNAKE_BODY);
                         }
                     }
                     else
@@ -165,43 +207,43 @@ namespace SnakeGame
 
         private void SetColors()
         {
-            ForegroundColor = (ConsoleColor)Configurations.WALL_COLOR;
+            ForegroundColor = (ConsoleColor)Configuration.WALL_COLOR;
             for (int x = 0; x < Map.End.X; x++)
             {
                 SetCursorPosition(x, 0);
-                Write((char)Configurations.WALL_TOKEN);
+                Write((char)Configuration.WALL_TOKEN);
                 SetCursorPosition(x, Map.End.Y - 1);
-                Write((char)Configurations.WALL_TOKEN);
+                Write((char)Configuration.WALL_TOKEN);
             }
 
             for (int y = 1; y < Map.End.Y - 1; y++)
             {
                 SetCursorPosition(0, y);
-                Write((char)Configurations.WALL_TOKEN);
+                Write((char)Configuration.WALL_TOKEN);
                 SetCursorPosition(Map.End.X - 1, y);
-                Write((char)Configurations.WALL_TOKEN);
+                Write((char)Configuration.WALL_TOKEN);
             }
 
-            ForegroundColor = (ConsoleColor)Configurations.FRUIT_COLOR;
+            ForegroundColor = (ConsoleColor)Configuration.FRUIT_COLOR;
             SetCursorPosition(fruit.Position.X, fruit.Position.Y);
-            Write((char)Configurations.FRUIT_TOKEN);
+            Write((char)Configuration.FRUIT_TOKEN);
 
-            ForegroundColor = (ConsoleColor)Configurations.SNAKE_COLOR;
-            for (int i = 0; i < snake.Positions.Count; i++)
+            ForegroundColor = (ConsoleColor)Configuration.SNAKE_COLOR;
+            for (int i = 0; i < Positions.Count; i++)
             {
-                var segment = snake.Positions[i];
+                var segment = Positions[i];
                 SetCursorPosition(segment.X, segment.Y);
                 if (i == 0)
                 {
-                    Write((char)Configurations.SNAKE_HEAD);
+                    Write((char)Configuration.SNAKE_HEAD);
                 }
-                else if (i == snake.Positions.Count - 1)
+                else if (i == Positions.Count - 1)
                 {
-                    Write((char)Configurations.SNAKE_TAIL);
+                    Write((char)Configuration.SNAKE_TAIL);
                 }
                 else
                 {
-                    Write((char)Configurations.SNAKE_BODY);
+                    Write((char)Configuration.SNAKE_BODY);
                 }
             }
 

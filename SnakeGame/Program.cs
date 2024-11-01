@@ -1,24 +1,31 @@
-﻿using System.Runtime.InteropServices;
+﻿#pragma warning disable SYSLIB1054
+using System.Runtime.InteropServices;
 
 namespace SnakeGame
 {
     internal class Program
     {
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern IntPtr GetConsoleWindow();
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        const int SW_MAXIMIZE = 3;
+
         static void Main()
         {
-            int width = (int)Configurations.WIDTH;
-            int height = (int)Configurations.HEIGHT + 1;
+            IntPtr consoleWindow = GetConsoleWindow();
 
-            Console.SetWindowSize(width, height);
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Console.SetBufferSize(width, height);
-
-            int bufferWidth = Console.BufferWidth;
-            int bufferHeight = Console.BufferHeight;
-
-            int left = (bufferWidth - width) / 2;
-            int top = (bufferHeight - height) / 2;
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Console.SetWindowPosition(left, top);
+            if (consoleWindow != IntPtr.Zero)
+            {
+                ShowWindow(consoleWindow, SW_MAXIMIZE);
+            }
+            else
+            {
+                Console.WriteLine("Failed to get console window handle.");
+            }
 
             var game = new Game();
             game.Run();
