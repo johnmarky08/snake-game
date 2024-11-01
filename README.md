@@ -2,7 +2,7 @@
 1ST YEAR - ITEC 102 FINAL PROJECT
 
 > [!NOTE]
-> Game Part 1 out of ??
+> Games 1 out of ??
 
 ## Controllers
 | Keys | Function |
