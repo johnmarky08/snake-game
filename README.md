@@ -1,8 +1,5 @@
 # Snake Game
-1ST YEAR - ITEC 102 FINAL PROJECT
-
-> [!NOTE]
-> Games 1 out of ??
+A simple game made with C#
 
 ## Controllers
 | Keys | Function |
