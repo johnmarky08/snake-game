@@ -34,7 +34,7 @@ namespace SnakeGame
                 Draw();
                 Input();
                 Logic();
-                Thread.Sleep(200);
+                Thread.Sleep((int)Configuration.SPEED);
             }
 
             PlayAgain();
@@ -69,7 +69,7 @@ namespace SnakeGame
 
             Positions.Clear();
             Positions.Add(new Point(Map.End.X / 2, Map.End.Y / 2));
-            
+
             direction = Direction.STOP;
             SpawnFruit();
             Run();
@@ -237,29 +237,31 @@ namespace SnakeGame
         {
             SetCursorPosition(0, 0);
             Write(buffer.ToString());
-
             SetColors();
-            DrawScore();
-            DrawFunctions();
+            DrawScoreAndGuides();
         }
 
-        private static void DrawFunctions()
+        private void DrawScoreAndGuides()
         {
-            int guides = 30;
-            int dash = 13;
-            int meaning = 10;
+            int guides = (int)Configuration.WIDTH / 2;
+            int dash = guides - 6;
+            int meaning = dash - 2;
+
+
+            SetCursorPosition(0, Map.End.Y);
+            Write($"Your Score: {score}");
 
             SetCursorPosition(Map.End.X - guides, Map.End.Y);
-            WriteLine("W / Up Arrow");
+            WriteLine("W | ^");
 
             SetCursorPosition(Map.End.X - guides, Map.End.Y + 1);
-            WriteLine("D / Down Arrow");
+            WriteLine("A | <");
 
             SetCursorPosition(Map.End.X - guides, Map.End.Y + 2);
-            WriteLine("R / Right Arrow");
+            WriteLine("S | v");
 
             SetCursorPosition(Map.End.X - guides, Map.End.Y + 3);
-            WriteLine("L / Left Arrow");
+            WriteLine("D | >");
 
             for (int i = 0; i < 4; i++)
             {
@@ -271,13 +273,13 @@ namespace SnakeGame
             WriteLine("Go Up");
 
             SetCursorPosition(Map.End.X - meaning, Map.End.Y + 1);
-            WriteLine("Go Down");
+            WriteLine("Go Left");
 
             SetCursorPosition(Map.End.X - meaning, Map.End.Y + 2);
-            WriteLine("Go Right");
+            WriteLine("Go Down");
 
             SetCursorPosition(Map.End.X - meaning, Map.End.Y + 3);
-            WriteLine("Go Left");
+            WriteLine("Go Right");
         }
 
         private void SetColors()
@@ -323,12 +325,6 @@ namespace SnakeGame
             }
 
             ResetColor();
-        }
-
-        private void DrawScore()
-        {
-            SetCursorPosition(5, Map.End.Y);
-            Write($"Your Score: {score}");
         }
     }
 }

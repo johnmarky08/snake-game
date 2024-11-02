@@ -2,10 +2,11 @@
 {
     public enum Configuration
     {
-        WIDTH = 60,
-        HEIGHT = 40,
-        WALL_TOKEN = '#',
-        FRUIT_TOKEN = '%',
+        SPEED = 500,
+        WIDTH = 40,
+        HEIGHT = 35,
+        WALL_TOKEN = '"',
+        FRUIT_TOKEN = '$',
         SNAKE_HEAD = '@',
         SNAKE_BODY = 'O',
         SNAKE_TAIL = 'o',
