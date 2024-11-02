@@ -2,7 +2,7 @@
 {
     public enum Configuration
     {
-        SPEED = 500,
+        SPEED = 200,
         WIDTH = 40,
         HEIGHT = 35,
         WALL_TOKEN = '"',
