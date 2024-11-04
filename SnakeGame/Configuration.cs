@@ -4,8 +4,8 @@
     {
         SPEED = 200,
         WIDTH = 40,
-        HEIGHT = 35,
-        WALL_TOKEN = '"',
+        HEIGHT = 20,
+        WALL_TOKEN = '*',
         FRUIT_TOKEN = '$',
         SNAKE_HEAD = '@',
         SNAKE_BODY = 'O',
